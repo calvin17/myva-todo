@@ -7,12 +7,10 @@ import CreateTodo from './components/CreateTodo';
 export default () => {
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/new" element={<CreateTodo />} />
-          <Route path="/" element={<Dashboard />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes path="/">
+        <Route index element={<Dashboard />} />
+        <Route path=":new" element={<CreateTodo />} />
+      </Routes>
     </div>
   );
 };

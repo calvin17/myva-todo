@@ -14,7 +14,7 @@ const prodConfig = {
       name: 'myva_todo',
       filename: 'remoteEntry.js',
       exposes: {
-        './TodoIndex': './src/bootstrap',
+        './TodoIndex': './src/App.js',
       },
       shared: packageJson.dependencies,
     }),

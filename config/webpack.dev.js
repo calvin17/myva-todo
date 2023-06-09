@@ -9,7 +9,7 @@ const devConfig = {
   devServer: {
     port: 8082,
     historyApiFallback: {
-      index: 'index.html',
+      index: '/index.html',
     },
   },
   plugins: [
@@ -17,7 +17,7 @@ const devConfig = {
       name: 'myva_todo',
       filename: 'remoteEntry.js',
       exposes: {
-        './TodoIndex': './src/bootstrap',
+        './TodoIndex': './src/App.js',
       },
       shared: packageJson.dependencies,
     }),

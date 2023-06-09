@@ -5,7 +5,7 @@ export default function Dashboard() {
   return (
     <React.Fragment>
       Dashboard in Todo
-      <Link to="/new">Create Todo</Link>
+      <Link to="new">Create Todo</Link>
     </React.Fragment>
   );
 }
