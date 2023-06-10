@@ -9,6 +9,10 @@ const devConfig = {
   output: {
     publicPath: 'http://localhost:8082/',
   },
+  entry: './src/App.tsx',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   devServer: {
     port: 8082,
     historyApiFallback: {
@@ -20,7 +24,7 @@ const devConfig = {
       name: 'myva_todo',
       filename: 'remoteEntry.js',
       exposes: {
-        './TodoIndex': './src/App.js',
+        './TodoIndex': './src/App.tsx',
       },
       shared: packageJson.dependencies,
     }),
