@@ -118,6 +118,8 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
                   width: '75px',
                   marginLeft: '10px',
                   bgcolor: `${chipCategory(card.category)}`,
+                  borderRadius: 1,
+                  height: '25px',
                   color: 'white',
                 }}
               />

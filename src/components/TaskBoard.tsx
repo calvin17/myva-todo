@@ -45,7 +45,7 @@ interface TaskBoard {
 const StyledFormControlLabel = styledEmotion(FormControlLabel)`
   padding: 1px;
   font-size: 24px;
-  border-radius: 20px;
+  border-radius: 5px;
   color: white;
   font-weight: bold;
   height: 30px;
