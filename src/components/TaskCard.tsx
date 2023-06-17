@@ -17,8 +17,11 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Draggable } from 'react-beautiful-dnd';
 import styledEmotion from '@emotion/styled';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 import { useModal } from '../hooks/useModal';
+import CardActionList from './CardActionList';
 import ICard from '../interfaces/ICard';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -28,6 +31,19 @@ interface ExpandMoreProps extends IconButtonProps {
 const CardContainer = styledEmotion.div`
   padding-bottom: 10px
 `;
+
+const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#f5f5f9',
+    color: 'rgba(0, 0, 0, 0.87)',
+    width: 150,
+    padding: 0,
+    fontSize: 10,
+    border: '1px solid #dadde9',
+  },
+}));
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
@@ -62,9 +78,10 @@ const chipCategory = (category: string): any => {
 
 const TaskCard: React.FC<CardProps> = ({ card, index }) => {
   const [expanded, setExpanded] = React.useState(false);
+  // const { visible, toggleVisibility } = useModal();
+  const [visibleActionList, setVisibleActionList] = React.useState(false);
   const [backgroundColor, setBackgroundColor] = useState<string>('');
 
-  const { toggleVisibility } = useModal();
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -73,7 +90,7 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
     <Draggable draggableId={card.id} index={index}>
       {(provided) => (
         <CardContainer
-          onClick={() => toggleVisibility(card)}
+          // onClick={() => toggleVisibility(card)}
           // hideCard={card.hidden}
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -87,9 +104,24 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
                 </Avatar>
               }
               action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
+                <ClickAwayListener onClickAway={() => setVisibleActionList(false)}>
+                  <StyledTooltip
+                    PopperProps={{
+                      disablePortal: true,
+                    }}
+                    onClose={() => setVisibleActionList(false)}
+                    placement="bottom-start"
+                    open={visibleActionList}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    title={<CardActionList card={card} setVisibleActionList={setVisibleActionList} />}
+                  >
+                    <IconButton onClick={() => setVisibleActionList(!visibleActionList)}>
+                      <MoreVertIcon />
+                    </IconButton>
+                  </StyledTooltip>
+                </ClickAwayListener>
               }
               subheaderTypographyProps={{
                 fontSize: 11,
@@ -98,11 +130,11 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
               title="Calvin Abraham"
               subheader="September 14, 2016"
             />
+
             <CardContent>
               <Typography paragraph>{card.title}</Typography>
               <Typography variant="body2" color="text.secondary">
-                This impressive paella is a perfect party dish and a fun meal to cook together with your
-                guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                {card.description}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -135,10 +167,7 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
                 <Typography paragraph>Method:</Typography>
-                <Typography paragraph>
-                  Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-                  minutes.
-                </Typography>
+                <Typography paragraph>More Information like link and details</Typography>
               </CardContent>
             </Collapse>
           </Card>

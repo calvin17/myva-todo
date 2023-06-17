@@ -31,6 +31,7 @@ import IColumn from '../interfaces/IColumn';
 import { setColumns } from '../store/slices/columns.slice';
 import { filterCards, setCards } from '../store/slices/cards.slice';
 import Column from './Column';
+import EditModal from './EditModal';
 
 import TaskCard from './TaskCard';
 
@@ -286,6 +287,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
           </StatusesColumnsContainer>
         </Box>
       </Container>
+      <EditModal />
     </React.Fragment>
   );
 };
