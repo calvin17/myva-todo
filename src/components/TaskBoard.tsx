@@ -21,6 +21,7 @@ import Checkbox, { checkboxClasses } from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import { useModal } from '../hooks/useModal';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
@@ -33,7 +34,7 @@ import { filterCards, setCards } from '../store/slices/cards.slice';
 import Column from './Column';
 import EditModal from './EditModal';
 
-import TaskCard from './TaskCard';
+import CreateTask from './CreateTask';
 
 interface TaskBoardProps {
   toggleTheme: () => void;
@@ -109,6 +110,8 @@ const Item = styled(Paper)(({ theme }) => ({
 const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
   const [searched, setSearched] = useState('');
   const theme = useContext(ThemeContext);
+
+  const [openCreateModal, SetOpenCreateModal] = useState(false);
 
   const { cards } = useAppSelector((state: { cards: any }) => state.cards);
   const { columns } = useAppSelector((state) => state.columns);
@@ -218,6 +221,14 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
               <Typography variant="h5" component="h5" sx={{ fontWeight: 'bold' }}>
                 Task Manager
               </Typography>
+              <Button
+                onClick={() => SetOpenCreateModal(true)}
+                variant="contained"
+                endIcon={<AddCircleOutlineIcon />}
+                sx={{ marginTop: '20px' }}
+              >
+                Create New
+              </Button>
             </Grid>
             <Grid item lg={6} md={12}>
               <Box display="flex" justifyContent="flex-end">
@@ -288,6 +299,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
         </Box>
       </Container>
       <EditModal />
+      <CreateTask visible={openCreateModal} handleClose={() => SetOpenCreateModal(false)} />
     </React.Fragment>
   );
 };
