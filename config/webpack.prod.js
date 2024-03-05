@@ -8,7 +8,7 @@ const prodConfig = {
   entry: './src/App.tsx',
   output: {
     filename: '[name].[contenthash].js',
-    path: '/myva_todo/latest/',
+    publicPath: '/myva_todo/latest/',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
