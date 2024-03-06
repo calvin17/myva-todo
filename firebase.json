@@ -8,7 +8,7 @@
     ],
   	"rewrites": [{
   	  "source": "**",
-      "destination": "/remoteEntry.js"
+      "destination": "/myva_todo/latest/remoteEntry.js"
   	}]
   }
 }
