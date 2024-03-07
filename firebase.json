@@ -7,8 +7,9 @@
       "**/node_modules/**"
     ],
   	"rewrites": [{
-  	  "source": "**",
-      "destination": "/myva_todo/latest/remoteEntry.js"
+  	  "source": "/myva_todo/latest/**",
+      "destination": "/myva_todo/latest/remoteEntry.js",
+      "dynamicLinks": true
   	}]
   }
 }
