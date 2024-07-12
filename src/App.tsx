@@ -20,10 +20,10 @@ export default () => {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <ModalProvider>
-          <Routes>
-            <Route index element={<TaskBoard toggleTheme={toggleTheme} />} />
-            <Route path=":new" element={<CreateTodo />} />
-          </Routes>
+            <Routes>
+              <Route index element={<TaskBoard toggleTheme={toggleTheme} />} />
+              <Route path=":new" element={<CreateTodo />} />
+            </Routes>
         </ModalProvider>
       </ThemeProvider>
     </Provider>

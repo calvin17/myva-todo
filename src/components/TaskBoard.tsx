@@ -219,7 +219,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
           <Grid container spacing={2} justifyContent="center" mt={2} mb={4}>
             <Grid item lg={4} md={12}>
               <Typography variant="h5" component="h5" sx={{ fontWeight: 'bold' }}>
-                Task Manager
+               Task Manager
               </Typography>
               <Button
                 onClick={() => SetOpenCreateModal(true)}
