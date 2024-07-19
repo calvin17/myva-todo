@@ -7,6 +7,7 @@ interface ICard {
   title: string;
   description: string;
   status: IStatus;
+  createdBy: string;
   hidden: boolean;
 }
 

@@ -96,10 +96,10 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
+          <Card sx={{ width: 200, maxWidth: 345, minHeight: 200, marginBottom: 2, height: "100%", display: "flex", flexDirection: "column", }}>
             <CardHeader
               avatar={
-                <Avatar sx={{ bgcolor: red[500], backgroundColor: '#5A6CC3' }} aria-label="recipe">
+                <Avatar sx={{ bgcolor: red[500], backgroundColor: '#5A6CC3', width: 32, height: 32 }} aria-label="recipe">
                   C
                 </Avatar>
               }
@@ -123,21 +123,21 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
                   </StyledTooltip>
                 </ClickAwayListener>
               }
-              subheaderTypographyProps={{
+              titleTypographyProps={{
                 fontSize: 11,
               }}
+              subheaderTypographyProps={{
+                fontSize: 10,
+              }}
               sx={{ paddingBottom: '0px' }}
-              title="Calvin Abraham"
-              subheader="September 14, 2016"
+              title={card.createdBy}
+              subheader="Sep 14, 2024"
             />
 
-            <CardContent>
-              <Typography paragraph>{card.title}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {card.description}
-              </Typography>
+            <CardContent sx={{ padding: '5px 15px' }}>
+              <Typography variant="subtitle2" align="left">{card.title}</Typography>
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{ mt: "auto" }}>
               <IconButton aria-label="add to users">
                 <PersonAddAlt1Icon fontSize="small" />
               </IconButton>
@@ -155,19 +155,22 @@ const TaskCard: React.FC<CardProps> = ({ card, index }) => {
                   color: 'white',
                 }}
               />
-              <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
+              {card.description && (
+                <ExpandMore
+                  expand={expanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              )}
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>Method:</Typography>
-                <Typography paragraph>More Information like link and details</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {card.description}
+                </Typography>
               </CardContent>
             </Collapse>
           </Card>

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import mockColumns from '../../data/columns';
 import IColumn from '../../interfaces/IColumn';
 import IStatus from '../../interfaces/IStatus';
 
@@ -10,7 +9,7 @@ interface ColumnsSliceState {
 }
 
 const initialState: ColumnsSliceState = {
-  columns: mockColumns,
+  columns: [],
   updatedColumns: undefined,
 };
 

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import mockCards from '../../data/cards';
 import ICard from '../../interfaces/ICard';
 import ICategory from '../../interfaces/ICategory';
 
@@ -10,7 +9,7 @@ interface CardSliceState {
 }
 
 const initialState: CardSliceState = {
-  cards: mockCards,
+  cards: [],
   searchText: '',
 };
 

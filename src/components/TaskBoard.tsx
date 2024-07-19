@@ -16,13 +16,13 @@ import {
 import { styled } from '@mui/material/styles';
 import styledEmotion from '@emotion/styled';
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox, { checkboxClasses } from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
 import { useModal } from '../hooks/useModal';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import ICategory from '../interfaces/ICategory';
@@ -33,8 +33,13 @@ import { setColumns } from '../store/slices/columns.slice';
 import { filterCards, setCards } from '../store/slices/cards.slice';
 import Column from './Column';
 import EditModal from './EditModal';
-
 import CreateTask from './CreateTask';
+import TaskPlaceholderTitle from './TaskPlaceholderTitle';
+import TaskPlaceholderCard from './TaskPlaceholderCard';
+
+import { useFetchTasks } from '../hooks/useFetchTasks';
+
+import formatColumnsData from '../utils/formatColumnsData';
 
 interface TaskBoardProps {
   toggleTheme: () => void;
@@ -109,6 +114,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
   const [searched, setSearched] = useState('');
+  const [columnsData, setColumnsData] = useState([]);
   const theme = useContext(ThemeContext);
 
   const [openCreateModal, SetOpenCreateModal] = useState(false);
@@ -120,6 +126,19 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
   const [selectedCategories, setSelectedCategories] = useState<ICategory[]>(Object.values(ICategory));
 
   const dispatch = useAppDispatch();
+
+  // const { isLoading, error, data: columnsData } = useFetchColumns();
+
+  const { isLoading, error, tasks } = useFetchTasks();
+  // let columnsData = {};
+  // if(tasks) {
+  //   columnsData = formatColumnsData(tasks);
+  // }
+  
+  
+
+  // console.log('**** columnsData', columnsData);
+  // console.log('**** col11', columnsData);
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -206,7 +225,20 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
 
     setSelectedCategories([...selectedCategories, category]);
   };
+  
+  // useEffect(() => {
+  //   console.log('columnsData?.columns ******', columnsData);
+  //   columnsData && dispatch(setColumns(columnsData));
+  // }, [columnsData]);
 
+  useEffect(() => {
+    if(tasks) {
+      const formatColumns = formatColumnsData(tasks);
+      dispatch(setCards(tasks));
+      formatColumns && dispatch(setColumns(formatColumns?.columns));
+    }
+  }, [tasks]);
+  
   useEffect(() => {
     dispatch(filterCards({ categories: selectedCategories }));
   }, [selectedCategories]);
@@ -284,7 +316,35 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ toggleTheme }) => {
           </Grid>
           <StatusesColumnsContainer container spacing={3} justifyContent="center">
             <DragDropContext onDragEnd={onDragEnd}>
-              {columns.map((column, index) => {
+              {isLoading && (
+                <>
+                  <Box sx={{ display: 'flex', width: '100%', justifyContent: 'left', margin: '0 auto' }}>
+                    <TaskPlaceholderTitle />
+                  </Box>
+                </>
+              )}
+              {isLoading && (
+                [...Array(10)].map((_, i) => {
+                  return (
+                    <Box sx={{ display: 'flex' }}>
+                      <Card key={i} sx={{
+                          width: 200,
+                          minWidth: 200,
+                          maxWidth: 200,
+                          height: 180,
+                          p: 2,
+                          m: 2,
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }} 
+                        variant="outlined"
+                      >
+                        <TaskPlaceholderCard />
+                      </Card>
+                    </Box>
+                  )})
+              )}
+              {!isLoading && columns.map((column, index) => {
                 const cardsArray: ICard[] = [];
 
                 column.cardsIds.forEach((cardId) => {
